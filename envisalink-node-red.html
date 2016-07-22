@@ -1,0 +1,91 @@
+<script type="text/x-red" data-template-name="envisalink in">
+    <div class="form-row">
+        <label for="node-input-controller"><i class="fa fa-globe"></i> EnvisaLink</span></label>
+        <input type="text" id="node-input-controller">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-globe"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-channel"><i class="fa fa-tasks"></i> Channel</label>
+        <input type="text" id="node-input-channel" placeholder="node-red">
+    </div>
+    <div class="form-tips">You may listen to a list of comma-separated channels - ch1,ch2,etc.</div>
+</script>
+
+<script type="text/x-red" data-help-name="envisalink in">
+    <p>Subscribes to the PubNub channel (or comma-separated list of channels) specified by the edit window and outputs the received content to <b>msg.payload</b></p>
+    <p>You may listen to a list of comma-separated channels - ch1,ch2,etc.</p>
+    <p>Messages published on that channel will appear on the <code>msg.payload</code> at the output,
+    while <code>msg.channel</code> will contain the name of the channel the message was published on.
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('envisalink in',{
+        category: 'input',
+        color:"#ff9933",
+        inputs:0,
+        outputs:1,
+        icon: "pnTiny.png",
+        label: function() {
+            return this.name||"envisalink";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        defaults: {
+            name: {value:""},
+            controller: {type:"envisalink-controller", required:true}
+        }
+    });
+</script>
+
+
+
+<script type="text/x-red" data-template-name="envisalink-controller">
+  <div class="form-row node-input-controller">
+    <label for="node-config-input-host"><i class="fa fa-globe"></i> Server</span></label>
+    <input class="input-append-left" type="text" id="node-config-input-host" placeholder="localhost" style="width: 40%;" >
+    <label for="node-config-input-port" style="margin-left: 10px; width: 35px; "> Port</label>
+    <input type="text" id="node-config-input-port" data-i18n="[placeholder]envisalink.label.port" style="width:45px">
+  </div>
+    <div class="form-row">
+    <label for="node-config-input-password"> Password</label>
+    <input type="password" id="node-config-input-password" style="width:40%;">
+  </div>
+    <div class="form-row">
+    <label for="node-config-input-zones"> Zones</label>
+    <input type="text" id="node-config-input-zones" style="width:45px">
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-partitions"> Partitions</label>
+    <input type="text" id="node-config-input-partitions" style="width:45px">
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="envisalink-controller">
+    <p>A minimum MQTT broker connecton requires only a broker server address to be added to the default configuration.</p>
+    <p>To secure the connection with SSL/TLS, a TLS Configuration must also be configured and selected.</p>
+    <p>If you create a Client ID it must be unique to the broker you are connecting to.</p>
+    <p>For more information about MQTT see the <a href="http://www.eclipse.org/paho/" target="_new">Eclipse Paho</a> site.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('envisalink-controller', {
+      category: 'config',
+      defaults: {
+          host: { value: '', required: true },
+          port: { value: 4025, required: true, validate: RED.validators.number() },
+          zones: { required: true },
+          partitions: { required: true, value: 1 },
+        },
+      credentials: {
+        password: { type: 'password' }
+      },
+      label: function () {
+        if (this.host === '') { this.host = 'localhost'; }
+        return this.host + ':' + this.port;
+      },
+    });
+</script>
