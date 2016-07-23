@@ -2,7 +2,7 @@
 var net = require('net');
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
-var tpi = require('./tpi.js');
+var tpidefs = require('./tpi.js');
 
 var connections = [];
 
@@ -44,7 +44,7 @@ EnvisaLink.prototype.connect = function () {
     for (var i = 0; i < dataslice.length; i++) {
       var datapacket = dataslice[i];
       if (datapacket !== '') {
-        var tpi = tpi.tpicommands[datapacket.substring(0, 3)];
+        var tpi = tpidefs.tpicommands[datapacket.substring(0, 3)];
         if (tpi) {
           if (tpi.bytes === '' || tpi.bytes === 0) {
             console.log(tpi.pre, tpi.post);
