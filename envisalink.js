@@ -47,11 +47,9 @@ EnvisaLink.prototype.connect = function () {
         var tpi = tpidefs.tpicommands[datapacket.substring(0, 3)];
         if (tpi) {
           if (tpi.bytes === '' || tpi.bytes === 0) {
-            console.log(tpi.pre, tpi.post);
+            _this.emit('log-warn', tpi.pre + ' - ' + tpi.post);
           } else {
-            var log = { level: 'debug', text: tpi.pre + ' ' +
-              datapacket.substring(3, datapacket.length - 2) + ' ' + tpi.post, };
-            _this.emit('log', log);
+            _this.emit('log-debug', tpi.pre + ' ' + datapacket.substring(3, datapacket.length - 2) + ' ' + tpi.post);
             if (tpi.action === 'updatezone') {
               updateZone(tpi, datapacket);
             } else if (tpi.action === 'updatepartition') {
@@ -71,22 +69,20 @@ EnvisaLink.prototype.connect = function () {
         }
       }
     }
-
-    //actual.end();
   });
 
   function loginResponse(data) {
     var loginStatus = data.substring(3, 4);
     if (loginStatus == '0') {
-      console.log('Incorrect Password :(');
+      _this.emit('log-debug', 'Incorrect password');
     } else if (loginStatus == '1') {
       _this.emit('connected');
-      console.log('successfully logged in!  getting current data...');
+      _this.emit('log-debug', 'Successfully logged in. Requesting current state.');
       sendCommand(_this.connection, '001');
     } else if (loginStatus == '2') {
-      console.log('Request for Password Timed Out :(');
+      _this.emit('log-debug', 'Request for password timed out.');
     } else if (loginStatus == '3') {
-      console.log('login requested... sending response...');
+      _this.emit('log-debug', 'Login requested. Sending response. ' + _this.options.password);
       sendCommand(_this.connection, '005' + _this.options.password);
     }
   }
@@ -94,15 +90,12 @@ EnvisaLink.prototype.connect = function () {
   function updateZone(tpi, data) {
     var zone = parseInt(data.substring(3, 6));
     var initialUpdate = _this.zones[zone] === undefined;
+    _this.emit('log-debug', 'Zone: ' + zone + ', options: ' + _this.options.zones);
     if (zone <= _this.options.zones) {
       _this.zones[zone] = { send: tpi.send, name: tpi.name, code:data };
       _this.emit('zoneupdate',
         { zone: parseInt(data.substring(3, 6)), code: data.substring(0, 3),
           status: tpi.name, initialUpdate: initialUpdate, });
-/*
-        _this.emit('data', { zones: _this.zones, partitions: _this.partitions,
-          users: _this.users, systems: _this.systems, });
-*/
     }
   }
 
@@ -123,10 +116,6 @@ EnvisaLink.prototype.connect = function () {
           { partition: parseInt(data.substring(3, 4)),
             code: data.substring(0, 3), status: tpi.name, initialUpdate: initialUpdate, });
       }
-      /*
-      _this.emit('data', { zones: _this.zones, partitions: _this.partitions,
-        users: _this.users, systems: _this.systems, });
-        */
     }
   }
 
@@ -146,10 +135,6 @@ EnvisaLink.prototype.connect = function () {
       _this.emit('partitionuserupdate',
       { partition: parseInt(data.substring(3, 4)), code: data.substring(0, 3),
         user: user, status: tpi.name, initialUpdate: initialUpdate, });
-      /*
-      _this.emit('data', { zones: _this.zones, partitions: _this.partitions,
-        users: _this.users, systems: _this.systems, });
-      */
     }
   }
 
@@ -157,10 +142,6 @@ EnvisaLink.prototype.connect = function () {
     var initialUpdate = _this.systems === undefined;
     _this.systems = { send: tpi.send, name: tpi.name, code: data };
     _this.emit('systemupdate', { code: data.substring(0, 3), status: tpi.name, });
-    /*
-    _this.emit('data', { zones: _this.zones, partitions: _this.partitions,
-      users: _this.users, systems: _this.systems, });
-    */
   }
 };
 
@@ -171,6 +152,16 @@ EnvisaLink.prototype.disconnect = function () {
   } else {
     return true;
   }
+};
+
+EnvisaLink.prototype.sendCommand = function (command) {
+  var checksum = 0;
+  for (var i = 0; i < command.length; i++) {
+    checksum += command.charCodeAt(i);
+  }
+
+  checksum = checksum.toString(16).slice(-2).toUpperCase();
+  this.connection.write(command + checksum + '\r\n');
 };
 
 function sendCommand(connection, command) {
