@@ -16,10 +16,8 @@
     <ul>
        <li><code>msg.topic</code></li>
        <li><code>msg.payload</code></li>
-       <li><code>msg.qos</code></li>
-       <li><code>msg.retain</code></li>
     </ul>
-    <p><code>msg.payload</code> will be a String, unless it is detected as a binary buffer.</p>
+    <p><code>msg.payload</code> will be a struct containing <code>zone</code>/<code>partition</code>, the <code>code</code> and a human readable <code>status</code>.</p>
 </script>
 
 <script type="text/javascript">
@@ -97,6 +95,10 @@
   <div class="form-row">
     <label for="node-config-input-partitions"><i class="fa fa-dot-circle-o"></i> Partitions</label>
     <input type="text" id="node-config-input-partitions" style="width:45px">
+  </div>
+  <div class="form-row">
+      <label for="node-input-mapping"><i class="fa fa-tag"></i>Partition and Zone Mapping</label>
+      <textarea name="node-input-mapping" id="node-input-mapping" cols="40" rows="5"></textarea>
   </div>
 </script>
 
