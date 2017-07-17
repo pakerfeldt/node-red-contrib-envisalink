@@ -99,6 +99,11 @@ module.exports = function (RED) {
           _this.connecting = true;
           _this.el.connect();
         }
+      } else if (_this.connected) {
+        elNode.status({ fill:'green', shape:'dot', text:'Connected' });
+      } else if (!_this.connecting) {
+        _this.connecting = true;
+        _this.el.connect();
       }
     };
 
@@ -117,6 +122,8 @@ module.exports = function (RED) {
     };
 
     this.el.on('connected', function () {
+      _this.connected = true;
+      _this.connecting = false;
       for (var id in _this.users) {
         if (_this.users.hasOwnProperty(id)) {
           _this.users[id].status({ fill:'green', shape:'dot', text:'Connected' });
@@ -125,6 +132,8 @@ module.exports = function (RED) {
     });
 
     this.el.on('error', function (ex) {
+      _this.connected = false;
+      _this.connecting = false;
       _this.log(RED._('Disconnected from ' + _this.host + ':' + _this.port));
       for (var id in _this.users) {
         if (_this.users.hasOwnProperty(id)) {
@@ -178,6 +187,8 @@ module.exports = function (RED) {
         _this.done();
         _this.done = null;
       }
+      _this.connected = false;
+      _this.connecting = false;
 
       _this.log(RED._('Disconnected from ' + _this.host + ':' + _this.port));
       for (var id in _this.users) {
