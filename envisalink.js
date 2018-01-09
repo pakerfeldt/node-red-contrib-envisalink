@@ -49,7 +49,7 @@ EnvisaLink.prototype.connect = function () {
           if (tpi.bytes === '' || tpi.bytes === 0) {
             _this.emit('log-warn', tpi.pre + ' - ' + tpi.post);
           } else {
-            _this.emit('log-debug', tpi.pre + ' ' + datapacket.substring(3, datapacket.length - 2) + ' ' + tpi.post);
+            _this.emit('log-trace', tpi.pre + ' ' + datapacket.substring(3, datapacket.length - 2) + ' ' + tpi.post);
             if (tpi.action === 'updatezone') {
               updateZone(tpi, datapacket);
             } else if (tpi.action === 'updatepartition') {
@@ -77,12 +77,12 @@ EnvisaLink.prototype.connect = function () {
       _this.emit('log-debug', 'Incorrect password');
     } else if (loginStatus == '1') {
       _this.emit('connected');
-      _this.emit('log-debug', 'Successfully logged in. Requesting current state.');
+      _this.emit('log-trace', 'Successfully logged in. Requesting current state.');
       sendCommand(_this.connection, '001');
     } else if (loginStatus == '2') {
       _this.emit('log-debug', 'Request for password timed out.');
     } else if (loginStatus == '3') {
-      _this.emit('log-debug', 'Login requested. Sending response. ' + _this.options.password);
+      _this.emit('log-trace', 'Login requested. Sending response. ' + _this.options.password);
       sendCommand(_this.connection, '005' + _this.options.password);
     }
   }
@@ -90,7 +90,7 @@ EnvisaLink.prototype.connect = function () {
   function updateZone(tpi, data) {
     var zone = parseInt(data.substring(3, 6));
     var initialUpdate = _this.zones[zone] === undefined;
-    _this.emit('log-debug', 'Zone: ' + zone + ', options: ' + _this.options.zones);
+    _this.emit('log-trace', 'Zone: ' + zone + ', options: ' + _this.options.zones);
     if (zone <= _this.options.zones) {
       _this.zones[zone] = { send: tpi.send, name: tpi.name, code:data };
       _this.emit('zoneupdate',

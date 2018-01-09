@@ -69,6 +69,10 @@ module.exports = function (RED) {
       }
     });
 
+    this.el.on('log-trace', function (text) {
+      _this.trace(RED._(text));
+    });
+
     this.el.on('log-debug', function (text) {
       _this.log(RED._(text));
     });
