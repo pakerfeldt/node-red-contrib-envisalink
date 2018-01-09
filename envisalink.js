@@ -78,12 +78,12 @@ EnvisaLink.prototype.connect = function () {
     } else if (loginStatus == '1') {
       _this.emit('connected');
       _this.emit('log-trace', 'Successfully logged in. Requesting current state.');
-      sendCommand(_this.connection, '001');
+      _this.sendCommand('001');
     } else if (loginStatus == '2') {
       _this.emit('log-debug', 'Request for password timed out.');
     } else if (loginStatus == '3') {
       _this.emit('log-trace', 'Login requested. Sending response. ' + _this.options.password);
-      sendCommand(_this.connection, '005' + _this.options.password);
+      _this.sendCommand('005' + _this.options.password);
     }
   }
 
@@ -162,22 +162,4 @@ EnvisaLink.prototype.sendCommand = function (command) {
 
   checksum = checksum.toString(16).slice(-2).toUpperCase();
   this.connection.write(command + checksum + '\r\n');
-};
-
-function sendCommand(connection, command) {
-  var checksum = 0;
-  for (var i = 0; i < command.length; i++) {
-    checksum += command.charCodeAt(i);
-  }
-
-  checksum = checksum.toString(16).slice(-2);
-  connection.write(command + checksum + '\r\n');
-}
-
-function manualCommand(command) {
-  if (this.connection) {
-    sendcommand(this.connection, command);
-  } else {
-    //not initialized
-  }
 };
