@@ -3,4 +3,4 @@ module.exports = {
   EnvisalinkController: require('envisalink-controller'),
   EnvisalinkIn: require('envisalink-in'),
   EnvisalinkOut: require('envisalink-out')
-};
+}
