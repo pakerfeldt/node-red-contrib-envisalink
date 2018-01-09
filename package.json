@@ -16,13 +16,15 @@
 ],
 "node-red": {
   "nodes": {
-  "envisalink": "envisalink-node-red.js"
-}
+      "envisalink-controller": "envisalink-controller.js",
+      "envisalink-in": "envisalink-in.js",
+      "envisalink-out": "envisalink-out.js"
+    }
 },
 "bugs": {
   "url": "https://github.com/pakerfeldt/node-red-contrib-envisalink.git#master/issues"
 },
-"main": "10-zwave.js",
+"main": "index.js",
 "scripts": {
   "test": "echo \"Error: no test specified\" && exit 1"
 },
