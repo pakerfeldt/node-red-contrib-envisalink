@@ -7,19 +7,20 @@
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name">
     </div>
-    <div class="form-tips">Tips ...</div>
 </script>
 
 <script type="text/x-red" data-help-name="envisalink in">
-    <p>Connects to a DSC alarm system through EnvisaLink.</p>
-    <p>Outputs events from the Envisalink:</p>
-    <ul>
-       <li><code>msg.topic</code></li>
-       <li><code>msg.payload</code></li>
-       <li><code>msg.qos</code></li>
-       <li><code>msg.retain</code></li>
-    </ul>
-    <p><code>msg.payload</code> will be a String, unless it is detected as a binary buffer.</p>
+    <p>Connects to a DSC alarm system through the EnvisaLink module and provide state updates.</p>
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+       <dt>payload <span class="property-type">object</span></dt>
+       <dd>a javascript object containing <code>zone</code>/<code>partition</code>, the <code>code</code> and a human readable <code>status</code>.</dd>
+       <dt>topic <span class="property-type">string</span></dt>
+       <dd>Either <code>zone event</code>, <code>partition event</code>,  <code>partition user event</code> or <code>system event</code>.</dd>
+    </dl>
+    <h3>Details</h3>
+    <p>This node requires a connection to an EnvisaLink module to be configured. This is configured by clicking the pencil icon.</p>
+    <p>Several EnvisaLink nodes (in or out) can share the same EnvisaLink connection.</p>
 </script>
 
 <script type="text/javascript">

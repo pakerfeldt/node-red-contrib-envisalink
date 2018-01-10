@@ -7,11 +7,22 @@
         <label for="node-output-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-output-name">
     </div>
-    <div class="form-tips">Tips ...</div>
 </script>
 
 <script type="text/x-red" data-help-name="envisalink out">
-    <p>Help text to be written</p>
+    <p>Connects to a DSC alarm system through the EnvisaLink module and sends commands.</p>
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+       <dt>payload <span class="property-type">string</span></dt>
+       <dd> the raw TPI command to send</dd>
+    </dl>
+    <h3>Details</h3>
+    <code>msg.payload</code> should contain the command to send to EnvisaLink.
+    Currently, only raw TPI commands are supported, eg. <code>0331YYYY</code> to arm partition 1 using code XXXX or
+    <code>0401XXXX</code> to disarm partition 1 using code XXXX.
+    <p>Refer to the <a href="http://forum.eyez-on.com/FORUM/viewtopic.php?t=301">TPI documentation</a> for commands.</p>
+    <p>This node requires a connection to an EnvisaLink module to be configured. This is configured by clicking the pencil icon.</p>
+    <p>Several EnvisaLink nodes (in or out) can share the same EnvisaLink connection.</p>
 </script>
 
 <script type="text/javascript">
