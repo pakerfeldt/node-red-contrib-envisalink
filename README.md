@@ -25,7 +25,7 @@ Please refer to the [TPI documentation] for a full list of commands.
 For example, to arm partition `1` using the code `9999` you would use the command `033` and passing `1` as partition and your code.
 The final string to pass in to the output node would be `03319999`.
 
-![Flow Example](images/example-flows.png)
+![Flow Example](https://github.com/pakerfeldt/node-red-contrib-envisalink/raw/master/images/example-flows.png)
 
 This plugin is based on work from [NodeAlarmProxy].
 
