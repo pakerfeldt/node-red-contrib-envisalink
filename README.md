@@ -27,8 +27,6 @@ The final string to pass in to the output node would be `03319999`.
 
 ![Flow Example](https://github.com/pakerfeldt/node-red-contrib-envisalink/raw/master/images/example-flows.png)
 
-This plugin is based on work from [NodeAlarmProxy].
-
 # Authors
 
 [Patrik Åkerfeldt]
