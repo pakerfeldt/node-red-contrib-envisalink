@@ -24,12 +24,21 @@ EnvisaLink.prototype.connect = function () {
   this.partitions = {}
   this.users = {}
   this.systems = undefined
-  this.connection = net.connect({ port: this.options.port, host: this.options.host }, function () {
-    // do nothing
-  })
+  this.shouldReconnect = true
+
+  this.connection = net.createConnection({ port: this.options.port, host: this.options.host })
 
   this.connection.on('error', function (ex) {
+    _this.emit('log-error', '' + ex)
     _this.emit('error', ex)
+  })
+
+  this.connection.on('close', function (hadError) {
+    setTimeout(function () {
+      if (_this.shouldReconnect && (_this.connection === undefined || _this.connection.destroyed)) {
+        _this.connect()
+      }
+    }, 5000)
   })
 
   this.connection.on('end', function () {
@@ -149,6 +158,7 @@ EnvisaLink.prototype.connect = function () {
 }
 
 EnvisaLink.prototype.disconnect = function () {
+  this.shouldReconnect = false
   if (this.connection && !this.connection.destroyed) {
     this.connection.end()
     return false

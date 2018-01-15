@@ -61,7 +61,6 @@ module.exports = function (RED) {
     this.el.on('error', function (ex) {
       _this.connected = false
       _this.connecting = false
-      _this.log(RED._('Disconnected from ' + _this.host + ':' + _this.port))
       for (var id in _this.users) {
         if (_this.users.hasOwnProperty(id)) {
           _this.users[id].status({ fill: 'red', shape: 'ring', text: 'Disconnected' })
