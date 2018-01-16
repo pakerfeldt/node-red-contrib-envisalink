@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-envisalink",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "DSC alarm system support for node-red using the EnvisaLink module",
   "dependencies": {},
   "repository": {
