@@ -25,6 +25,7 @@ EnvisaLink.prototype.connect = function () {
   this.users = {}
   this.systems = undefined
   this.shouldReconnect = true
+  this.pollId = undefined
 
   this.connection = net.createConnection({ port: this.options.port, host: this.options.host })
 
@@ -82,6 +83,10 @@ EnvisaLink.prototype.connect = function () {
       _this.emit('connected')
       _this.emit('log-trace', 'Successfully logged in. Requesting current state.')
       _this.sendCommand('001')
+      clearInterval(_this.pollId)
+      _this.pollId = setInterval(function () {
+        _this.sendCommand('000')
+      }, 60000)
     } else if (loginStatus === '2') {
       _this.emit('log-debug', 'Request for password timed out.')
     } else if (loginStatus === '3') {
@@ -158,6 +163,7 @@ EnvisaLink.prototype.connect = function () {
 }
 
 EnvisaLink.prototype.disconnect = function () {
+  clearInterval(this.pollId)
   this.shouldReconnect = false
   if (this.connection && !this.connection.destroyed) {
     this.connection.end()
