@@ -13,6 +13,7 @@ function EnvisaLink (config) {
     zones: config.zones,
     partitions: config.partitions
   }
+  this.pollId = undefined
 }
 
 util.inherits(EnvisaLink, EventEmitter)
@@ -25,7 +26,6 @@ EnvisaLink.prototype.connect = function () {
   this.users = {}
   this.systems = undefined
   this.shouldReconnect = true
-  this.pollId = undefined
 
   this.connection = net.createConnection({ port: this.options.port, host: this.options.host })
 
@@ -35,6 +35,7 @@ EnvisaLink.prototype.connect = function () {
   })
 
   this.connection.on('close', function (hadError) {
+    clearInterval(this.pollId)
     setTimeout(function () {
       if (_this.shouldReconnect && (_this.connection === undefined || _this.connection.destroyed)) {
         _this.connect()
