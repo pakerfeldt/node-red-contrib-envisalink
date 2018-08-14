@@ -100,6 +100,14 @@ module.exports = function (RED) {
       }
     })
 
+    this.el.on('partitionuserupdate', function (update) {
+      for (var id in _this.users) {
+        if (_this.users.hasOwnProperty(id)) {
+          _this.users[id].emit('el-partitionuserupdate', update)
+        }
+      }
+    })
+
     this.el.on('systemupdate', function (update) {
       for (var id in _this.users) {
         if (_this.users.hasOwnProperty(id)) {

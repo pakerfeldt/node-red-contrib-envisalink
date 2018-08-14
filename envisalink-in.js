@@ -30,6 +30,14 @@ module.exports = function (RED) {
       }
     })
 
+    this.on('el-partitionuserupdate', function (update) {
+      if (!update.initialUpdate) {
+        delete update.initialUpdate
+        var msg = { topic: 'partition user event', payload: update }
+        _this.send(msg)
+      }
+    })
+
     this.on('el-systemupdate', function (update) {
       if (!update.initialUpdate) {
         delete update.initialUpdate
