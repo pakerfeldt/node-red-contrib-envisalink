@@ -5,10 +5,15 @@
 # node-red-contrib-envisalink
 [Honeywell Ademco alarm systems] integration with [Node-RED] using the [EnvisaLink] hardware.
 
-This node allows you to listen to state changes in your DSC alarm as well as sending
+This node allows you to listen to state changes in your Ademco alarm as well as sending
 commands such as arming and disarming of your alarm.
 
 # Install
+
+I'm still trying to figure out Git not sure exactly how to point it at my copy also would like to rename my git version to
+node-red-contrib-envislink-ademco 
+But I'm a complete git noob.
+
 
 Run the following command in the root directory of your Node-RED install
 
