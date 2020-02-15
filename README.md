@@ -3,7 +3,7 @@
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![NPM version](https://badge.fury.io/js/node-red-contrib-envisalink.png)](https://www.npmjs.com/package/node-red-contrib-envisalink)
 # node-red-contrib-envisalink
-[DSC alarm systems] integration with [Node-RED] using the [EnvisaLink] hardware.
+[Honeywell Ademco alarm systems] integration with [Node-RED] using the [EnvisaLink] hardware.
 
 This node allows you to listen to state changes in your DSC alarm as well as sending
 commands such as arming and disarming of your alarm.
