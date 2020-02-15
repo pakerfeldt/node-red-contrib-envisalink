@@ -84,6 +84,7 @@ module.exports = function (RED) {
       _this.error(RED._(text))
     })
 
+// CET: Feb 9/2020 this one stays as is.
     this.el.on('zoneupdate', function (update) {
       for (var id in _this.users) {
         if (_this.users.hasOwnProperty(id)) {
@@ -100,21 +101,21 @@ module.exports = function (RED) {
       }
     })
 
-    this.el.on('partitionuserupdate', function (update) {
+    this.el.on('cidupdate', function (update) {
       for (var id in _this.users) {
         if (_this.users.hasOwnProperty(id)) {
-          _this.users[id].emit('el-partitionuserupdate', update)
+          _this.users[id].emit('el-cidupdate', update)
         }
       }
     })
 
-    this.el.on('systemupdate', function (update) {
-      for (var id in _this.users) {
-        if (_this.users.hasOwnProperty(id)) {
-          _this.users[id].emit('el-systemupdate', update)
-        }
-      }
-    })
+    this.el.on('keypadupdate', function (update) {
+	for (var id in _this.users) {
+		if (_this.users.hasOwnProperty(id)) {
+			_this.users[id].emit('el-keypadupdate', update);
+		}
+	}
+    });
 
     this.sendCommand = function (command) {
       this.el.sendCommand(command)
@@ -127,6 +128,9 @@ module.exports = function (RED) {
       }
       _this.connected = false
       _this.connecting = false
+
+// CET added a normal log message FEB 8/2020
+      _this.log("Received disconnect.. host:"+_this.host+" port:"+_this.port);
 
       _this.log(RED._('Disconnected from ' + _this.host + ':' + _this.port))
       for (var id in _this.users) {

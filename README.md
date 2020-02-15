@@ -29,15 +29,18 @@ The final string to pass in to the output node would be `03319999`.
 
 # Authors
 
+[Chris Thierman] 
+based on node-red-contrib-envisalink by
 [Patrik Åkerfeldt]
 
 ### History
 
+* based on work from [Partik Akerfeldt] node-red-contrib-envisalink
 * based on work from [NodeAlarmProxy].
 
 [Node-RED]:           http://nodered.org/
 [DSC alarm systems]:  http://www.dsc.com/
 [EnvisaLink]:         http://www.eyezon.com/
-[TPI documentation]:  https://github.com/pakerfeldt/node-red-contrib-envisalink/raw/master/docs/EnvisaLinkTPI-1-08.pdf
-[Patrik Åkerfeldt]:   https://github.com/pakerfeldt
+[TPI documentation]:  https://github.com/cthierman/node-red-contrib-envisalink/raw/master/docs/EnvisaLinkTPI-1-08.pdf
+[Chris Thierman]:     https://github.com/cthierman
 [NodeAlarmProxy]:     https://github.com/entrocode/NodeAlarmProxy

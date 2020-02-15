@@ -30,21 +30,21 @@ module.exports = function (RED) {
       }
     })
 
-    this.on('el-partitionuserupdate', function (update) {
+    this.on('el-cidupdate', function (update) {
       if (!update.initialUpdate) {
         delete update.initialUpdate
-        var msg = { topic: 'partition user event', payload: update }
+        var msg = { topic: 'cid event', payload: update }
         _this.send(msg)
       }
     })
 
-    this.on('el-systemupdate', function (update) {
-      if (!update.initialUpdate) {
-        delete update.initialUpdate
-        var msg = { topic: 'system event', payload: update }
-        _this.send(msg)
-      }
-    })
+   this.on('el-keypadupdate', function (update) {
+	if( !update.initialUpdate ) {
+		delete update.initialUpdate;
+		var msg = { topic: 'status event', payload: update };
+		_this.send( msg );
+	}
+   });
 
     this.on('close', function (done) {
       if (_this.controllerConn) {
